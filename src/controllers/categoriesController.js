@@ -11,12 +11,12 @@ export async function getCategories(req,res){
     }
 }
 
-export async function postCategorie(req,res){
-    const {name} = req.body
+export async function postCategory(req,res){
+    const name = req.categoryName
     console.log(name)
     try{
         await connection.query('INSERT INTO categories (name) VALUES ($1)',[name])
-        res.send(201)
+        res.sendStatus(201)
     }catch(err){
         console.log(err)
         res.sendStatus(500)
