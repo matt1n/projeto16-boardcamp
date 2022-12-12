@@ -3,12 +3,22 @@ import { connection } from "../database/database.js";
 //                              FAZER A QUERY DO GET
 
 export async function getCustomers(req, res) {
+  const {cpf} = req.query
   try {
-    const costumers = await connection.query(`
+    if (cpf){
+      const costumers = await connection.query(`
+            SELECT *
+            FROM customers
+            WHERE cpf LIKE ($1)
+        `,[cpf+"%"]);
+    res.send(costumers.rows);
+    }else{
+      const costumers = await connection.query(`
             SELECT *
             FROM customers
         `);
     res.send(costumers.rows);
+    }  
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
